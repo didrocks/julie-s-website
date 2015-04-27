@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Julie's</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+  <link rel="import" href="../bower_components/polymer/polymer.html">
+
+  <link rel="import" href="../bower_components/core-icons/core-icons.html">
+  <link rel="import" href="../bower_components/core-icon/core-icon.html">
+
+  <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+  <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+
+  <link rel="import" href="elements/core-scroll-header-panel-shadow.html">
+  <link rel="import" href="elements/category-paintings-holder.html">
+
+  <link rel="import" href="../bower_components/img-fixheight/img-fixheight.html">
+
+  <style>
+    body {
+      background-color: #FFF9FD;
+      font-family: 'ubuntu';
+    }
+
+    /****************** toolbar ********************/
+    core-toolbar {
+      color: #FFF9FD;
+      background-color: #394759;
+      height: 560px;
+    }
+
+    /* hack to get the middleBar expanding the whole parent, that way
+    the middleBar has a size (in %), which can be exploited by core-image for
+    cropping */
+    core-toolbar::shadow #middleBar {
+      bottom: 0;
+      height: 100%;
+    }
+
+    core-toolbar .bottom {
+      z-index: 1;
+    }
+
+    paper-tab {
+      color: #FFF9FD;
+    }
+    paper-tab a {
+      text-decoration: none;
+      color: inherit;
+    }
+    paper-tabs::shadow #selectionBar {
+      background-color: #bfb1a4;
+    }
+    paper-tab::shadow #ink {
+      color: #bfb1a4;
+    }
+
+
+    /* keep header (but buttons) scrollable, and enable some elements to
+       still be active:
+       https://github.com/Polymer/core-scroll-header-panel/issues/1 */
+    core-scroll-header-panel-shadow::shadow #headerContainer, .scrollable {
+       pointer-events: none !important;
+    }
+    .scrollable > [scrol-active] {
+       pointer-events: auto !important;
+    }
+
+    #core-toolbar-bg {
+      margin: 0;
+      z-index: 0;
+    }
+
+    core-toolbar::after {
+      height: 6px;
+      box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* set the content to have margin, and be centered */
+    .content {
+      max-width: 95%;
+      margin: 0 auto;
+    }
+
+    /* remove padding-start and list type from ul and li elements */
+    .unstyled-list {
+      -webkit-padding-start: 0;
+      list-style-type: none;
+    }
+
+    .paintings-category-list {
+    	display: flex;
+    	flex-wrap: wrap;
+    }
+
+    .paintings-category-listitem {
+	    flex: 1 1 400px;
+      margin: 20px;
+    }
+
+  </style>
+</head>
+
+
+<body unresolved fullbleed layout vertical>
+
+  <core-scroll-header-panel-shadow flex condenses keepCondensedHeader headerHeight="560" condensedHeaderHeight="64">
+    <core-toolbar>
+      <div>Julie Tolomelli</div>
+      <img-fixheight id="core-toolbar-bg" class="middle scrollable" fit
+                     height=560 widths="[480, 960, 1260, 1920, 2500]" ratios="[1, 2, 3]" limitmaxwidth
+                    srcpattern="img/banner1_::::.jpg" alt="Paint banner"></img-fixheight>
+      <!-- navigation -->
+      <span class="bottom fit scrollable" horizontal layout end-justified>
+        <paper-tabs scrol-active link selected="{{selected}}">
+          <paper-tab>
+            <a href="#travaux" horizontal center-center layout>Travaux</a>
+          </paper-tab>
+          <paper-tab>
+            <a href="#artiste" horizontal center-center layout>L'artiste</a>
+          </paper-tab>
+          <paper-tab>
+            <a href="#blog" horizontal center-center layout>Blog</a>
+          </paper-tab>
+          <paper-tab>
+            <a href="#contact" horizontal center-center layout>Contact</a>
+          </paper-tab>
+        </paper-tabs>
+        <core-icon scrol-active icon="search" self-center></core-icon>
+      </span>
+    </core-toolbar>
+
+    <div class="content">
+
+      <h1 id="travaux">Mes travaux</h1>
+
+      <ul class="paintings-category-list unstyled-list">
+      	<!-- card list item -->
+      	<li class="paintings-category-listitem">
+          <category-paintings-holder href="#category" label="Nom de la catégorie">
+            <!-- 800 at 1x, 1600 for 2x, 2400 for 3x -->
+            <!-- size is twice the width size as can grow -->
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+        <li class="paintings-category-listitem">
+          <category-paintings-holder>
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+        <li class="paintings-category-listitem">
+          <category-paintings-holder>
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+
+        <li class="paintings-category-listitem">
+          <category-paintings-holder>
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+
+        <li class="paintings-category-listitem">
+          <category-paintings-holder>
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+
+        <li class="paintings-category-listitem">
+          <category-paintings-holder>
+            <img src="img/banner1_960x560.jpg" sizes="800px"
+                 srcset="img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w" />
+          </category-paintings-holder>
+        </li>
+      </ul>
+
+
+      <div>111111111111111111111111111111111 11111111111111111</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    </div>
+  </core-scroll-header-panel-shadow>
+
+
+</body>

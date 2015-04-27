@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="category-paintings-holder" attributes="href label">
+<template>
+
+  <style>
+    :host {
+      width: 100%;
+    }
+
+    #container {
+      background-color: white;
+      padding: 20px;
+      transition: all 300ms ease-out;
+      box-shadow: 0 3px 6px rgba(0,0,0,.25);
+      position: relative;
+    }
+
+    #container:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,.25);
+    }
+
+    ::content img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    a {
+      margin: 20px; /* same margin than padding of the container (to factorize in sass) */
+      z-index: 1;
+      transition: all 300ms ease-out;
+      opacity: 0;
+      cursor: pointer;
+      text-decoration: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      color: white;
+      background: rgba(75,75,75,0.7);
+
+      display: flex;
+      flex-direction:column;
+      justify-content: center;
+      align-items:center;
+    }
+
+    a .line {
+      height: 2px;
+      width: 0%;
+      margin: 15px auto;
+
+      background-color: #ffffff;
+      transition: all 300ms ease-out;
+    }
+
+    a:hover {
+      opacity: 1;
+    }
+
+    a:hover .line {
+      width: 100%;
+    }
+  </style>
+
+  <div id="container">
+    <a href="{{href}}">
+			<div class="line"></div>
+			<div>{{label}}</div>
+			<div class="line"></div>
+		</a>
+    <content select="img"></content>
+  </div>
+
+</template>
+<script>
+(function() {
+  Polymer({});
+})();
+</script>
+</polymer-element>
