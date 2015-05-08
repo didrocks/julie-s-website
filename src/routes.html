@@ -1,0 +1,12 @@
+<link rel="import" href="../bower_components/more-routing/more-routing-config.html">
+
+<more-routing-config driver="hash"></more-routing-config>
+
+<more-route name="home" path="/"></more-route>
+<more-route name="about" path="/about"></more-route>
+<more-route name="blog" path="/blog"></more-route>
+<more-route name="contact" path="/contact"></more-route>
+<more-route name="categories" path="/category/:CategoryId">
+  <more-route name="category-paintings" path="/:paintingId"></more-route>
+</more-route>
+<more-route name="paintings" path="/painting"></more-route>
