@@ -177,7 +177,17 @@ that represents a header by adding a `core-header` class to it.
        * @type boolean
        * @default false
        */
-      scrollAwayTopbar: false
+      scrollAwayTopbar: false,
+
+      /** ADDED
+       * Add a forceCondensed attribute so that moving to non home page have already a
+       * condensed header which doesn't scroll back. This overrides the fixed property
+       *
+       * @attribute forceCondensed
+       * @type boolean
+       * @default false
+       */
+       forceCondensed: false
     },
 
     prevScrollTop: 0,
@@ -187,7 +197,7 @@ that represents a header by adding a `core-header` class to it.
     y: 0,
 
     observe: {
-      'headerMargin fixed': 'setup'
+      'headerMargin fixed forceCondensed': 'setup'
     },
 
     eventDelegates: {
@@ -268,9 +278,15 @@ that represents a header by adding a `core-header` class to it.
     setup: function() {
       var s = this.scroller.style;
       s.paddingTop = this.fixed ? '' : this.headerHeight + 'px';
+      s.paddingTop = this.forceCondensed ? '' : s.paddingTop;
       s.top = this.fixed ? this.headerHeight + 'px' : '';
+      s.top = this.forceCondensed ? this.condensedHeaderHeight + 'px': s.top;
+      console.log("Setup called: " + this.fixed + " " + this.forceCondensed);
       if (this.fixed) {
         this.transformHeader(null);
+      } else if (this.forceCondensed) {
+        this.transformHeader(this.headerHeight - this.condensedHeaderHeight);
+        this.$.dropShadow.classList.remove('hidden');
       } else {
         this.scroll();
       }
@@ -317,7 +333,7 @@ that represents a header by adding a `core-header` class to it.
     },
 
     scroll: function(event) {
-      if (!this.header) {
+      if (!this.header || this.forceCondensed) {
         return;
       }
 
