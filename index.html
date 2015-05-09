@@ -127,8 +127,8 @@
 
 <body unresolved fullbleed layout vertical>
   <template is="auto-binding" id="main_tmpl">
-  <core-scroll-header-panel-shadow flex condenses keepCondensedHeader headerHeight="560" condensedHeaderHeight="64"
-                                   forceCondensed?={{routepath!="/"}}>
+  <core-scroll-header-panel-shadow id="mainscroll" flex condenses keepCondensedHeader forceCondensed?={{routepath!="/"}}
+                                   headerHeight="560" condensedHeaderHeight="64">
     <core-toolbar>
       <div><a href={{urlFor('home')}}>Julie Tolomelli</a></div>
       <img-fixheight id="core-toolbar-bg" class="middle scrollable" fit
@@ -138,16 +138,16 @@
       <span class="bottom fit scrollable" horizontal layout end-justified>
         <more-route-selector>
           <paper-tabs scrol-active link>
-            <paper-tab>
+            <paper-tab route="home">
               <a href={{urlFor('home')}} horizontal center-center layout>Travaux</a>
             </paper-tab>
-            <paper-tab route="paintings">
-              <a href="{{urlFor('paintings')}}" horizontal center-center layout>L'artiste</a>
+            <paper-tab route="about">
+              <a href="{{urlFor('about')}}" horizontal center-center layout>L'artiste</a>
             </paper-tab>
-            <paper-tab>
+            <paper-tab route="blog">
               <a href="{{urlFor('blog')}}" horizontal center-center layout>Blog</a>
             </paper-tab>
-            <paper-tab>
+            <paper-tab route="contact">
               <a href="{{urlFor('contact')}}" horizontal center-center layout>Contact</a>
             </paper-tab>
           </paper-tabs>
@@ -197,9 +197,6 @@
   </template>
 <script>
 document.querySelector('#main_tmpl').addEventListener('template-bound', function() {
-      document.querySelector('#router').addEventListener('more-route-change', function() {
-        console.log("oooo");
-      });
 
       document.querySelector('#categories_tmpl').categories = [
       {
@@ -231,9 +228,15 @@ document.querySelector('#main_tmpl').addEventListener('template-bound', function
         'srcset': "img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w"
       },
     ];
+
   // Needed to detect model changes if Object.observe
   // is not available in the JS VM.
   Platform.performMicrotaskCheckpoint();
+});
+
+// scroll top on url change (only work with hash)
+window.addEventListener('hashchange', function() {
+  document.querySelector('#mainscroll').scroller.scrollTop = 0;
 });
 </script>
 

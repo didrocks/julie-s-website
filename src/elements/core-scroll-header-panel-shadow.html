@@ -281,7 +281,6 @@ that represents a header by adding a `core-header` class to it.
       s.paddingTop = this.forceCondensed ? '' : s.paddingTop;
       s.top = this.fixed ? this.headerHeight + 'px' : '';
       s.top = this.forceCondensed ? this.condensedHeaderHeight + 'px': s.top;
-      console.log("Setup called: " + this.fixed + " " + this.forceCondensed);
       if (this.fixed) {
         this.transformHeader(null);
       } else if (this.forceCondensed) {
