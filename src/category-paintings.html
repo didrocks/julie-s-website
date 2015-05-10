@@ -1,0 +1,60 @@
+<link rel="import" href="../bower_components/more-routing/more-route.html">
+
+<polymer-element name="category-paintings" attributes="data">
+  <template>
+    <more-route context name="categories" params={{urlparams}}></more-route>
+    <style>
+      .background {
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+      }
+
+      #container {
+
+      }
+
+      category-title {
+        color: white;
+      }
+    </style>
+
+    <div id="container" flex vertical layout>
+      <h1 cross-fade>Mes travauxxxxxx</h1>
+
+      <img fit class="background" src="/img/banner1_960x560.jpg" hero-id="category/{{urlparams.categoryId}}:background" hero>
+      <category-title style="background-color: black" label="{{category.label}}" hero-id="category/{{urlparams.categoryId}}:label" hero show></category-title>
+    </div>
+  </template>
+
+
+  <script>
+    Polymer('category-paintings', {
+
+      category: {},
+
+      observe: {
+        'urlparams.categoryId': 'categoryChanged',
+      },
+
+      categoryChanged: function() {
+        this._categoryFromData();
+      },
+
+      dataChanged: function() {
+        this._categoryFromData();
+      },
+
+      _categoryFromData: function() {
+        // We freeze the displayed category so that transitions aren't wonky on category change.
+        if (!this.urlparams.categoryId || !this.data) return;
+        var categories = this.data.categories;
+        Object.keys(categories).forEach(function(i) {
+          if (categories[i].id === this.urlparams.categoryId) {
+              this.category.label = categories[i].label;
+          }
+        }.bind(this));
+      },
+    });
+  </script>
+</polymer-element>

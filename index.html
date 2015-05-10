@@ -5,28 +5,30 @@
   <title>Julie's</title>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta charset="utf-8">
-  <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 
-  <link rel="import" href="/bower_components/polymer/polymer.html">
+  <link rel="import" href="bower_components/polymer/polymer.html">
 
-  <link rel="import" href="/bower_components/core-icons/core-icons.html">
-  <link rel="import" href="/bower_components/core-icon/core-icon.html">
+  <link rel="import" href="bower_components/core-icons/core-icons.html">
+  <link rel="import" href="bower_components/core-icon/core-icon.html">
 
-  <link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
-  <link rel="import" href="/bower_components/paper-tabs/paper-tabs.html">
+  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+  <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 
-  <link rel="import" href="/bower_components/core-animated-pages/core-animated-pages.html">
-  <link rel="import" href="/bower_components/core-animated-pages/transitions/hero-transition.html">
-  <link rel="import" href="/bower_components/core-animated-pages/transitions/cross-fade.html">
+  <link rel="import" href="bower_components/core-animated-pages/core-animated-pages.html">
+  <link rel="import" href="bower_components/core-animated-pages/transitions/hero-transition.html">
+  <link rel="import" href="bower_components/core-animated-pages/transitions/cross-fade.html">
 
-  <link rel="import" href="/src/elements/core-scroll-header-panel-shadow.html">
-  <link rel="import" href="/src/elements/category-title.html">
-  <link rel="import" href="/src/elements/category-paintings-holder.html">
+  <link rel="import" href="bower_components/img-fixheight/img-fixheight.html">
 
-  <link rel="import" href="/bower_components/img-fixheight/img-fixheight.html">
+  <link rel="import" href="bower_components/more-routing/more-routing.html">
+  <link rel="import" href="bower_components/core-ajax/core-ajax.html">
 
-  <link rel="import" href="/bower_components/more-routing/more-routing.html">
-  <link rel="import" href="/src/routes.html">
+  <link rel="import" href="src/elements/core-scroll-header-panel-shadow.html">
+
+  <link rel="import" href="src/routes.html">
+  <link rel="import" href="src/category-index.html">
+  <link rel="import" href="src/category-paintings.html">
 
   <style>
     body {
@@ -97,36 +99,18 @@
 
     /* set the content to have margin, and be centered */
     .content {
-      max-width: 97%;
       margin: 0 auto;
+      height: 100%;
     }
 
-    /* remove padding-start and list type from ul and li elements */
-    .unstyled-list {
-      -webkit-padding-start: 0;
-      list-style-type: none;
-    }
-
-    .paintings-category-list {
-    	display: flex;
-    	flex-wrap: wrap;
-    }
-
-    .paintings-category-listitem {
-	    flex: 1 1 400px;
-      margin: 20px;
-    }
-
-    category-title {
-      width: 100%;
-    }
 
   </style>
 </head>
 
 
 <body unresolved fullbleed layout vertical>
-  <template is="auto-binding" id="main_tmpl">
+  <template is="auto-binding">
+  <core-ajax auto url="api/json/v1/all.json" handleAs="json" response="{{data}}"></core-ajax>
   <core-scroll-header-panel-shadow id="mainscroll" flex condenses keepCondensedHeader forceCondensed?={{routepath!="/"}}
                                    headerHeight="560" condensedHeaderHeight="64">
     <core-toolbar>
@@ -158,35 +142,13 @@
 
     <more-route-selector id="router" selectedPath={{routepath}}>
       <core-animated-pages class="content" transitions="hero-transition cross-fade-all">
-        <section layout vertical route="home">
-          <h1 id="travaux">Mes travaux</h1>
-
-          <ul class="paintings-category-list unstyled-list">
-            <template id="categories_tmpl" is="auto-binding" repeat="{{ category in categories }}">
-              <li class="paintings-category-listitem" hero-id="{{category.id}}-background" hero>
-               <category-paintings-holder href="{{category.route}}" ishovered="{{hovered}}">
-                 <!-- 800 at 1x, 1600 for 2x, 2400 for 3x -->
-                 <!-- size is twice the width size as can grow -->
-                 <img src="{{category.src}}" sizes="800px"
-                      srcset="{{category.srcset}}" />
-                 <category-title label="{{category.label}}" hero-id="{{category.id}}-label" hero show?="{{hovered}}"></category-title>
-               </category-paintings-holder>
-             </li>
-            </template>
-          </ul>
-        </section>
-        <section layout vertical route="paintings">
-          <h1>Mes travauxxxxxx</h1>
-          <div id="div3" fit style="background-color: orange; height: 600px;" flex hero-id="cat1-background" hero></div>
-          <div id="div4" fit style="background-color: black; height: 100px;" flex hero-id="cat1-label" hero></div>
-        </section>
+        <category-index data={{data}}></category-index>
+        <category-paintings data={{data}}></category-paintings>
         <section layout vertical route="about">
         </section>
         <section layout vertical route="blog">
         </section>
         <section layout vertical route="contact">
-        </section>
-        <section layout vertical route="categories">
         </section>
         <section layout vertical route="category-paintings">
         </section>
@@ -196,44 +158,6 @@
   </core-scroll-header-panel-shadow>
   </template>
 <script>
-document.querySelector('#main_tmpl').addEventListener('template-bound', function() {
-
-      document.querySelector('#categories_tmpl').categories = [
-      {
-        'id': 'cat1',
-        'label': "Nom de la catégorie 1",
-        'route': '#cat1',
-        'src': 'img/banner1_960x560.jpg',
-        'srcset': "img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w"
-      },
-      {
-        'id': 'cat2',
-        'label': "Nom de la catégorie 2",
-        'route': '#cat2',
-        'src': 'img/banner1_960x560.jpg',
-        'srcset': "img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w"
-      },
-      {
-        'id': 'cat3',
-        'label': "Nom de la catégorie 3",
-        'route': '#cat3',
-        'src': 'img/banner1_960x560.jpg',
-        'srcset': "img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w"
-      },
-      {
-        'id': 'cat4',
-        'label': "Nom de la catégorie 4",
-        'route': '#cat4',
-        'src': 'img/banner1_960x560.jpg',
-        'srcset': "img/banner1_2500x1680.jpg 2500w, img/banner1_960x560.jpg 960w, img/banner1_480x560.jpg 480w"
-      },
-    ];
-
-  // Needed to detect model changes if Object.observe
-  // is not available in the JS VM.
-  Platform.performMicrotaskCheckpoint();
-});
-
 // scroll top on url change (only work with hash)
 window.addEventListener('hashchange', function() {
   document.querySelector('#mainscroll').scroller.scrollTop = 0;

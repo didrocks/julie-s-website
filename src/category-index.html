@@ -1,0 +1,69 @@
+<link rel="import" href="../bower_components/more-routing/more-route.html">
+<link rel="import" href="elements/category-paintings-holder.html">
+<link rel="import" href="elements/category-title.html">
+
+<polymer-element name="category-index" attributes="data">
+  <template>
+    <more-route context name="home"></more-route>
+    <style>
+      :host {
+        padding: 10px 20px 0px 20px;
+      }
+
+      header {
+        color: #bfb1a4;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 0.011em;
+        line-height: 20px;  /* guessed */
+        text-indent: -0.04em;
+      }
+
+      /* remove padding-start and list type from ul and li elements */
+      .unstyled-list {
+        -webkit-padding-start: 0;
+        list-style-type: none;
+      }
+
+      .paintings-category-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .paintings-category-listitem {
+        flex: 1 1 400px;
+        /*margin: 20px; remove margin for now, let's try auto spacing */
+      }
+
+      category-title {
+        width: 100%;
+        translateZ: 0;
+      }
+    </style>
+
+    <header cross-fade>Mes travaux</header>
+    <ul class="paintings-category-list unstyled-list">
+      <template repeat="{{ category in _categoryList }}">
+        <li class="paintings-category-listitem">
+         <category-paintings-holder href="{{urlFor('categories', {'categoryId': category.id})}}" ishovered="{{hovered}}">
+           <!-- 800 at 1x, 1600 for 2x, 2400 for 3x -->
+           <!-- size is twice the width size as can grow -->
+           <img src="{{category.src}}" sizes="800px" srcset="{{category.srcset}}"
+                hero-id="category/{{category.id}}:background" hero />
+           <category-title label="{{category.label}}" hero-id="category/{{category.id}}:label" hero show?="{{hovered}}"></category-title>
+         </category-paintings-holder>
+       </li>
+      </template>
+    </ul>
+  </template>
+
+  <script>
+    Polymer('category-index', {
+      _categoryList: [],
+
+      dataChanged: function()  {
+        this._categoryList = this.data.categories;
+      },
+    });
+  </script>
+</polymer-element>
