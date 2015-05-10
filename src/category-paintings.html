@@ -4,14 +4,12 @@
   <template>
     <more-route context name="categories" params={{urlparams}}></more-route>
     <style>
-      .background {
-        z-index: -1;
+      .background img {
         height: 100%;
         width: 100%;
       }
-
-      #container {
-
+      .background div {
+        background: rgba(75,75,75,0.7);
       }
 
       category-title {
@@ -19,11 +17,16 @@
       }
     </style>
 
-    <div id="container" flex vertical layout>
-      <h1 cross-fade>Mes travauxxxxxx</h1>
-
-      <img fit class="background" src="/img/banner1_960x560.jpg" hero-id="category/{{urlparams.categoryId}}:background" hero>
-      <category-title style="background-color: black" label="{{category.label}}" hero-id="category/{{urlparams.categoryId}}:label" hero show></category-title>
+    <div fit flex vertical layout>
+      <!-- force img to z-index -1 so that it's behind even during hero transition -->
+      <div fit class="background" style="z-index: -1;"
+           hero-id="category/{{urlparams.categoryId}}:background" hero>
+        <img fit src="/img/banner1_960x560.jpg">
+        <div fit id="mask"></div>
+      </div>
+      <div flex cross-fade>Background content</div>
+      <category-title label="{{category.label}}"
+                      hero-id="category/{{urlparams.categoryId}}:label" hero show></category-title>
     </div>
   </template>
 
