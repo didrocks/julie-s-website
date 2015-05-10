@@ -86,6 +86,9 @@
     *[scrol-active] {
        pointer-events: auto !important;
     }
+    core-scroll-header-panel-shadow.noscroll-transition::shadow #mainContainer {
+       overflow: hidden;
+    }
 
     #core-toolbar-bg {
       margin: 0;
@@ -112,6 +115,7 @@
   <template is="auto-binding">
   <core-ajax auto url="api/json/v1/all.json" handleAs="json" response="{{data}}"></core-ajax>
   <core-scroll-header-panel-shadow id="mainscroll" flex condenses keepCondensedHeader forceCondensed?={{routepath!="/"}}
+                                   class="{{ {'noscroll-transition': hideScrollbarTransition} | tokenList}}"
                                    headerHeight="560" condensedHeaderHeight="64">
     <core-toolbar>
       <div><a href={{urlFor('home')}}>Julie Tolomelli</a></div>
@@ -141,7 +145,9 @@
     </core-toolbar>
 
     <more-route-selector id="router" selectedPath={{routepath}}>
-      <core-animated-pages class="content" transitions="hero-transition cross-fade-all">
+      <core-animated-pages class="content" transitions="hero-transition cross-fade-all"
+                           on-core-animated-pages-transition-prepare="{{transitionstart}}"
+                           on-core-animated-pages-transition-end="{{transitionend}}">
         <category-index data={{data}}></category-index>
         <category-paintings data={{data}}></category-paintings>
         <section layout vertical route="about">
@@ -162,6 +168,24 @@
 window.addEventListener('hashchange', function() {
   document.querySelector('#mainscroll').scroller.scrollTop = 0;
 });
+
+addEventListener('template-bound', function(e) {
+  var scope = e.target;
+  /* we disable the scrollbar during the transition to a page with doesn't use scrollbars to avoid background
+     transition jumps. Once the transition is done, we set back the scrollbars default visiblity to let the system
+     compute if scrollbars are needed.
+   */
+  scope.hideScrollbarTransition = false;
+  scope.transitionstart = function() {
+    if (MoreRouting.getRoute('categories').active) {
+      scope.hideScrollbarTransition = true;
+    }
+  }
+  scope.transitionend = function() {
+    scope.hideScrollbarTransition = false;
+  }
+})
+
 </script>
 
 </body>
