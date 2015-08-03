@@ -1,24 +1,15 @@
 {
   "name": "site-julie",
-  "version": "0.0.0",
-  "authors": [
-    "Didier Roche <didrocks@ubuntu.com>"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5",
-    "paper-icon-button": "Polymer/paper-icon-button#~0.5.5",
-    "paper-progress": "Polymer/paper-progress#~0.5.5",
-    "core-elements": "Polymer/core-elements#~0.5.5",
-    "paper-tabs": "Polymer/paper-tabs#~0.5.5",
-    "img-fixheight": "~0.0.1",
-    "more-routing": "Polymore/more-routing#~0.5.0"
+    "iron-elements": "PolymerElements/iron-elements#1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#1.0.1",
+    "platinum-elements": "PolymerElements/platinum-elements#1.0.1",
+    "neon-elements": "PolymerElements/neon-elements#1.0.0",
+    "page": "visionmedia/page.js#~1.6.3"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
   }
 }

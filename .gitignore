@@ -1,2 +1,6 @@
-bower_components/*
-api/
+node_modules
+dist
+bower_components
+.tmp
+
+api
