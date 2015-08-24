@@ -92,6 +92,8 @@ gulp test:local
 
 This runs the unit tests defined in the `app/test` directory through [web-component-tester](https://github.com/Polymer/web-component-tester).
 
+To run tests Java 7 or higher is required. To update Java go to http://www.oracle.com/technetwork/java/javase/downloads/index.html and download ***JDK*** and install it.
+
 #### Build & Vulcanize
 
 ```sh
@@ -154,7 +156,7 @@ To enable Service Worker support for Polymer Starter Kit project use these 3 ste
   <link rel="import" href="../bower_components/platinum-sw/platinum-sw-register.html">
   -->
   ```
-3. Add 'precache' to the list in the 'default' gulp task like below.
+3. Uncomment 'cache-config' in the `runSequence()` section of the 'default' gulp task, like below:
 [(gulpfile.js)](https://github.com/PolymerElements/polymer-starter-kit/blob/master/gulpfile.js)
 
   ```JavaScript
@@ -164,7 +166,7 @@ To enable Service Worker support for Polymer Starter Kit project use these 3 ste
       ['copy', 'styles'],
       'elements',
       ['jshint', 'images', 'fonts', 'html'],
-      'vulcanize', 'precache',
+      'vulcanize', 'cache-config',
       cb);
   });
   ```
@@ -306,6 +308,26 @@ If you are not using the build-blocks, but still wish for additional files (e.g 
 Don't worry! We've got your covered. Polymer Starter Kit tries to offer everything you need to build and optimize your apps for production, which is why we include the tooling we do. We realise however that our tooling setup may not be for everyone.
 
 If you find that you just want the simplest setup possible, we recommend using Polymer Starter Kit light, which is available from the [Releases](https://github.com/PolymerElements/polymer-starter-kit/releases) page. This takes next to no time to setup.
+
+### If you require more granular configuration of Vulcanize than polybuild provides you an option by:
+
+1. Copy code below
+2. Then replace `gulp.task('vulcanize', function () {...` entire gulp vulcanize task code in `gulpfile.js`
+
+```javascript
+// Vulcanize granular configuration
+gulp.task('vulcanize', function () {
+  var DEST_DIR = 'dist/elements';
+  return gulp.src('dist/elements/elements.vulcanized.html')
+    .pipe($.vulcanize({
+      stripComments: true,
+      inlineCss: true,
+      inlineScripts: true
+    }))
+    .pipe(gulp.dest(DEST_DIR))
+    .pipe($.size({title: 'vulcanize'}));
+});
+```
 
 ## Contributing
 

@@ -16,7 +16,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   var app = document.querySelector('#app');
 
   app.displayInstalledToast = function() {
-    document.querySelector('#caching-complete').show();
+    // Check to make sure caching is actually enabled—it won't be in the dev environment.
+    if (!document.querySelector('platinum-sw-cache').disabled) {
+      document.querySelector('#caching-complete').show();
+    }
   };
 
   // Listen for template bound event to know when bindings
@@ -61,6 +64,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if (drawerPanel.narrow) {
       drawerPanel.closeDrawer();
     }
+  };
+
+  // Scroll page to top and expand header
+  app.scrollPageToTop = function() {
+    document.getElementById('mainContainer').scrollTop = 0;
   };
 
 })(document);
